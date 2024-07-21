@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
+import { ChakraProvider, Box, Container } from '@chakra-ui/react';
+import client from './apolloClient';
+import EmployeeDirectory from './components/EmployeeDirectory';
+import EmployeeDetail from './components/EmployeeDetail';
+import EmployeeCreate from './components/EmployeeCreate';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <ChakraProvider>
+        <Router>
+          <Box>
+            <Navbar />
+            <Container maxW="container.xl">
+              <Routes>
+                <Route path="/" element={<EmployeeDirectory />} />
+                <Route path="/employee/:id" element={<EmployeeDetail />} />
+                <Route path="/create" element={<EmployeeCreate />} />
+              </Routes>
+            </Container>
+          </Box>
+        </Router>
+      </ChakraProvider>
+    </ApolloProvider>
   );
 }
 
